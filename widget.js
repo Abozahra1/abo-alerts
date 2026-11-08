@@ -186,7 +186,7 @@ global.createAlert=createAlert;
   var TXT={followLabel:'New recruit',followLine:'has reported for duty.',subLabelNew:'Enlisted',subLabelRe:'Re-enlisted',subLineNew:'Signed on. Paperwork filed.',subLineRe:'Back for another tour.'};
   var stage=document.getElementById('stage');
   function build(d){return {type:d.type,name:d.name||'',months:d.months||'',tier:d.tier||'',message:d.message||'',text:TXT,head:true,assets:ASSETS};}
-  function play(d){return new Promise(function(res){var a=createAlert(stage,build(d));var t0=performance.now();function tick(now){var t=now-t0;a.render(t);if(t<=a.duration+50){requestAnimationFrame(tick);}else{res();}}requestAnimationFrame(tick);});}
+  function play(d){return new Promise(function(res){try{var au=new Audio("https://cdn.jsdelivr.net/gh/Abozahra1/abo-alerts@main/alert.mp3");au.volume=0.6;au.play();}catch(e){}var a=createAlert(stage,build(d));var t0=performance.now();function tick(now){var t=now-t0;a.render(t);if(t<=a.duration+50){requestAnimationFrame(tick);}else{res();}}requestAnimationFrame(tick);});}
   var Q=[],busy=false;
   function pump(){if(busy||!Q.length)return;busy=true;var d=Q.shift();Promise.race([Promise.all([document.fonts.load('108px AboHv'),document.fonts.load('30px AboCond')]),new Promise(function(r){setTimeout(r,1500);})]).then(function(){return play(d);}).then(function(){setTimeout(function(){busy=false;pump();},500);});}
   function enqueue(d){Q.push(d);pump();}
