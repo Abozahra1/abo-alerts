@@ -247,7 +247,7 @@ global.createAlert=createAlert;
     '</div><div class="tag"><span class="nm">ON DUTY</span><span class="sep"></span><span class="rec"><span class="dw"><span class="dot"></span></span>REC<span class="cam1">CAM 01</span></span></div>'+
     '<div class="cbadge"><img src="'+ASSETS.badge+'" alt=""></div>';
   stage.parentNode.insertBefore(camEl,stage);
-  document.head.appendChild(camKF);
+  document.body.appendChild(camKF);  /* end of body: after the widget.css <link>, so these sized keyframes win over its static fallbacks */
   function camApply(){
     camEl.style.setProperty('--x',CAM.x+'px');camEl.style.setProperty('--y',CAM.y+'px');
     camEl.style.setProperty('--w',CAM.w+'px');camEl.style.setProperty('--h',CAM.h+'px');
@@ -279,7 +279,7 @@ global.createAlert=createAlert;
   /* raid music (v2 B, his pick 2026-11-09) ships in the SAME commit as this file, so it is found next to
      widget.js: pinned by the same commit hash, nothing to fill in. Preloaded so the 1.7 s hit stays in sync. */
   var RAID_AU=null;try{if(RAID_SND){RAID_AU=new Audio(RAID_SND);RAID_AU.preload='auto';}}catch(e){}
-  function play(d){camReact(d.type);return new Promise(function(res){var _rs=(d.type==='raid'&&RAID_SND);try{var au=(_rs&&RAID_AU)?RAID_AU:new Audio(_rs?RAID_SND:"https://cdn.jsdelivr.net/gh/Abozahra1/abo-alerts@9d5f957/alert.mp3");au.volume=0.6;try{au.currentTime=0;}catch(_e){}au.play();}catch(e){}try{if(_rs){throw 0;}var _nm=(d.name||"").trim(),_len=_nm.length||1,_rd=(d.type==="raid"),_k=(d.type==="sub"?1.12:1),_s=(_rd?700:640),_e=(_rd?1650:1380*_k);for(var _i=0;_i<_len;_i++){if(_nm.charAt(_i)===" ")continue;(function(ms){setTimeout(function(){try{var kc=new Audio("https://cdn.jsdelivr.net/gh/Abozahra1/abo-alerts@4c18933/key.mp3");kc.volume=0.5;kc.play();}catch(e){}},ms);})(_s+((_i+1)/_len)*(_e-_s));}}catch(e){}var a=createAlert(stage,build(d));var t0=performance.now();function tick(now){var t=now-t0;a.render(t);if(t<=a.duration+50){requestAnimationFrame(tick);}else{res();}}requestAnimationFrame(tick);});}
+  function play(d){camReact(d.type);return new Promise(function(res){var _rs=(d.type==='raid'&&RAID_SND);try{var au=(_rs&&RAID_AU)?RAID_AU:new Audio(_rs?RAID_SND:"https://cdn.jsdelivr.net/gh/Abozahra1/abo-alerts@9d5f957/alert.mp3");au.volume=0.6;try{au.currentTime=0;}catch(_e){}au.play();}catch(e){}try{if(_rs){throw 0;}var _nm=(d.name||"").trim(),_len=_nm.length||1,_rd=(d.type==="raid"),_k=(d.type==="sub"?1.12:1),_s=(_rd?700:640),_e=(_rd?1650:1380*_k);for(var _i=0;_i<_len;_i++){if(_nm.charAt(_i)===" ")continue;(function(ms){setTimeout(function(){try{var kc=new Audio("https://cdn.jsdelivr.net/gh/Abozahra1/abo-alerts@4c18933/key.mp3");kc.volume=0.5;kc.play();}catch(e){}},ms);})(_s+((_i+1)/_len)*(_e-_s));}}catch(e){}var a=createAlert(stage,build(d));var t0=performance.now();function tick(now){var t=now-t0;a.render(t);if(t<=a.duration+50){requestAnimationFrame(tick);}else{try{a.el.remove();[].forEach.call(stage.querySelectorAll('.raid-vig'),function(v){v.remove();});}catch(_e){}res();}}requestAnimationFrame(tick);});}
   var Q=[],busy=false;
   function pump(){if(busy||!Q.length)return;busy=true;var d=Q.shift();Promise.race([Promise.all([document.fonts.load('108px AboHv'),document.fonts.load('30px AboCond')]),new Promise(function(r){setTimeout(r,1500);})]).then(function(){return play(d);}).then(function(){setTimeout(function(){busy=false;pump();},500);});}
   function enqueue(d){Q.push(d);pump();}

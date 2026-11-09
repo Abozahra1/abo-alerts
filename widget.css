@@ -229,6 +229,21 @@ html,body{margin:0;padding:0;background:transparent;overflow:hidden}
 .abo-cam .bandhi{position:absolute; left:0; right:0; top:0; height:3px; opacity:0; will-change:opacity;
   background:linear-gradient(90deg, var(--amber-hi), var(--amber-hi) 70%, rgba(247,207,99,.4))}
 
+/* sweep keyframes: static fallbacks for the default 456x264 window (mockup motion, travel = width-90, height).
+   camframe.js rewrites these three for the real camW/camH at load; its <style> sits later, so it wins. */
+@keyframes camSweepH{
+  0%{transform:translateX(-180px); opacity:0}
+  .5%{opacity:1}
+  4.4%{opacity:1}
+  5%{transform:translateX(366px); opacity:0}
+  100%{transform:translateX(366px); opacity:0}}
+@keyframes camSweepV{
+  0%,4.2%{transform:translateY(-130px); opacity:0}
+  4.7%{opacity:1}
+  7.4%{opacity:1}
+  8%{transform:translateY(264px); opacity:0}
+  100%{transform:translateY(264px); opacity:0}}
+@keyframes rSweepH{0%{transform:translateX(-180px);opacity:0}10%{opacity:1}85%{opacity:1}100%{transform:translateX(366px);opacity:0}}
 @keyframes camBlink{0%{opacity:1}50%{opacity:.2}}
 @keyframes camBreathe{
   from{transform:translate(0,0); opacity:.82}
